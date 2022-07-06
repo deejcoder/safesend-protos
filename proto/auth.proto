@@ -1,0 +1,34 @@
+syntax = "proto3";
+option go_package = "./pb";
+
+import "google/protobuf/timestamp.proto";
+
+service Authentication {
+	rpc Login(LoginRequest) returns (LoginResponse) {}
+	rpc Ping(PingRequest) returns (PingResponse) {}
+}
+
+enum ResponseStatus {
+	OK = 0;
+	NOT_AUTHORISED = 1;
+}
+
+message LoginRequest {
+	string email = 1;
+	string password = 2;
+}
+
+message LoginResponse {
+	ResponseStatus status = 1;
+	string accessToken = 2;
+	string refreshToken = 3;
+	google.protobuf.Timestamp expiry = 4;
+}
+
+message PingRequest {
+	string accessToken = 1;
+}
+
+message PingResponse {
+	ResponseStatus status = 1;
+}
